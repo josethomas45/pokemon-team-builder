@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-quer
 import PokemonGrid from './components/PokemonGrid';
 import TeamBuilder from './components/TeamBuilder/TeamBuilder';
 import SearchBar from './components/SearchBar';
+import Footer from './components/Footer';
 import { fetchPokemonList } from './api/pokemonApi';
 import './App.css';
 
@@ -144,8 +145,10 @@ function App() {
             )}
           </section>
         </main>
+        <Footer />
       </div>
     </QueryClientProvider>
+    
   );
 }
 
