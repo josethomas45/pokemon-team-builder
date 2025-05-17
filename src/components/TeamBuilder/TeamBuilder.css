@@ -1,0 +1,523 @@
+.team-builder {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.team-container {
+  min-height: 120px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 10px;
+  background-color: rgba(247, 247, 247, 0.8);
+  border-radius: 8px;
+  padding: 15px;
+  border: 2px dashed rgba(59, 76, 202, 0.3);
+  transition: all 0.3s ease;
+}
+
+.team-container.empty-team {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.empty-team-message {
+  text-align: center;
+  color: #8a8a8a;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.pokeball-icon {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(to bottom, #ff5350 0%, #ff5350 50%, #ffffff 50%, #ffffff 100%);
+  border-radius: 50%;
+  border: 3px solid #333;
+  position: relative;
+  animation: bounce 2s infinite;
+}
+
+.pokeball-icon::before {
+  content: '';
+  position: absolute;
+  height: 8px;
+  width: 8px;
+  background-color: white;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 2px solid #333;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.team-pokemon {
+  position: relative;
+  background-color: white;
+  border-radius: 8px;
+  padding: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  cursor: grab;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+}
+
+.team-pokemon::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, #ff5350, #ffde00);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+.team-pokemon:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+}
+
+.team-pokemon:hover::before {
+  transform: scaleX(1);
+}
+
+.team-pokemon.dragging {
+  opacity: 0.5;
+  transform: scale(0.95);
+}
+
+.team-pokemon-image {
+  width: 70px;
+  height: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.3s ease;
+}
+
+.team-pokemon:hover .team-pokemon-image {
+  transform: scale(1.1);
+}
+
+.team-pokemon-image img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.team-pokemon-info {
+  width: 100%;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.team-pokemon-info h3 {
+  font-size: 0.9rem;
+  margin-bottom: 5px;
+  text-transform: capitalize;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.team-pokemon-types {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.type-badge {
+  display: inline-block;
+  padding: 2px 5px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  color: white;
+  text-transform: capitalize;
+}
+
+/* Type colors */
+.normal { background-color: #A8A878; }
+.fire { background-color: #F08030; }
+.water { background-color: #6890F0; }
+.grass { background-color: #78C850; }
+.electric { background-color: #F8D030; }
+.ice { background-color: #98D8D8; }
+.fighting { background-color: #C03028; }
+.poison { background-color: #A040A0; }
+.ground { background-color: #E0C068; }
+.flying { background-color: #A890F0; }
+.psychic { background-color: #F85888; }
+.bug { background-color: #A8B820; }
+.rock { background-color: #B8A038; }
+.ghost { background-color: #705898; }
+.dark { background-color: #705848; }
+.dragon { background-color: #7038F8; }
+.steel { background-color: #B8B8D0; }
+.fairy { background-color: #EE99AC; }
+
+.remove-pokemon-btn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-color: rgba(255, 83, 80, 0.8);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  cursor: pointer;
+  opacity: 0;
+  transform: scale(0);
+  transition: all 0.2s ease;
+}
+
+.team-pokemon:hover .remove-pokemon-btn {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.remove-pokemon-btn:hover {
+  background-color: #ff5350;
+}
+
+/* Team Stats */
+.team-stats, .team-weaknesses {
+  background-color: rgba(247, 247, 247, 0.8);
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.team-stats h3, .team-weaknesses h3 {
+  font-size: 1rem;
+  margin-bottom: 15px;
+  color: #3b4cca;
+  text-align: center;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  width: 50px;
+  text-align: right;
+  font-weight: bold;
+  color: #666;
+}
+
+.stat-bar-container {
+  flex-grow: 1;
+  height: 10px;
+  background-color: #e0e0e0;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.stat-bar {
+  height: 100%;
+  border-radius: 5px;
+  transition: width 0.5s ease;
+}
+
+.hp-bar { background-color: #FF5959; }
+.atk-bar { background-color: #F5AC78; }
+.def-bar { background-color: #FAE078; }
+.spatk-bar { background-color: #9DB7F5; }
+.spdef-bar { background-color: #A7DB8D; }
+.spd-bar { background-color: #FA92B2; }
+
+.stat-value {
+  width: 30px;
+  text-align: right;
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+/* Team Weaknesses */
+.weaknesses-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.weakness-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: white;
+  padding: 5px 8px;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease;
+}
+
+.weakness-item:hover {
+  transform: translateY(-2px);
+}
+
+.very-weak {
+  border-left: 3px solid #ff5350;
+}
+
+.weak {
+  border-left: 3px solid #ff9800;
+}
+
+.neutral {
+  border-left: 3px solid #969696;
+}
+
+.resistant {
+  border-left: 3px solid #4caf50;
+}
+
+.very-resistant {
+  border-left: 3px solid #2196f3;
+}
+
+.multiplier {
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+.very-weak .multiplier { color: #ff5350; }
+.weak .multiplier { color: #ff9800; }
+.neutral .multiplier { color: #969696; }
+.resistant .multiplier { color: #4caf50; }
+.very-resistant .multiplier { color: #2196f3; }
+
+@media screen and (min-width: 768px) {
+  .stats-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .weaknesses-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .team-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .weaknesses-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.team-pokemon {
+  transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
+  cursor: grab;
+  position: relative;
+  user-select: none;
+}
+
+.team-pokemon:active {
+  cursor: grabbing;
+  opacity: 0.8;
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  z-index: 10;
+}
+
+.team-pokemon.drag-over {
+  border: 2px dashed #007bff;
+  box-shadow: 0 0 10px #007bff;
+  background-color: #e6f0ff;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.team-pokemon.removing {
+  opacity: 0;
+  transform: scale(0.95);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.team-stats-panel {
+  margin-top: 20px;
+  padding: 15px;
+  background: #f9f9f9; /* light background */
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.team-stats-panel h3 {
+  margin-bottom: 12px;
+  font-weight: 600;
+  color: #333;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.stat-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #555;
+  text-transform: uppercase;
+}
+
+.stat-bar-container {
+  width: 100%;
+  background: #ddd;
+  height: 12px;
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+
+.stat-bar {
+  height: 12px;
+  border-radius: 6px 0 0 6px;
+  transition: width 0.3s ease;
+}
+
+.hp-bar {
+  background-color: #FF5959; /* red */
+}
+
+.attack-bar {
+  background-color: #F08030; /* orange */
+}
+
+.defense-bar {
+  background-color: #F8D030; /* yellow */
+}
+
+.specialAttack-bar {
+  background-color: #6890F0; /* blue */
+}
+
+.specialDefense-bar {
+  background-color: #78C850; /* green */
+}
+
+.speed-bar {
+  background-color: #F85888; /* pink */
+}
+
+.stat-value {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #222;
+}
+
+.team-info-panel {
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #f9f9f9; /* light background */
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap; /* wrap on smaller screens */
+  justify-content: space-between;
+}
+
+/* Stats and weaknesses each take about half width on desktop */
+.team-stats-panel,
+.team-weaknesses-panel {
+  flex: 1 1 45%; /* grow and shrink, base 45% */
+  min-width: 280px;
+}
+
+/* Headings */
+.team-info-panel h3 {
+  margin-bottom: 15px;
+  font-weight: 600;
+  color: #333;
+}
+
+/* Weaknesses grid */
+.weaknesses-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* Weakness item */
+.weakness-item {
+  background: #fff;
+  border-radius: 8px;
+  padding: 6px 10px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 90px;
+  justify-content: space-between;
+}
+
+/* Type badge */
+.type-badge {
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 12px;
+  color: #fff;
+  text-transform: capitalize;
+  font-size: 0.85rem;
+}
+
+/* Multiplier */
+.multiplier {
+  font-weight: 700;
+  color: #555;
+}
+
+/* Example colors for weaknesses */
+.weakness-item.very-weak .type-badge {
+  background-color: #e74c3c; /* strong red */
+}
+.weakness-item.weak .type-badge {
+  background-color: #e67e22; /* orange */
+}
+.weakness-item.neutral .type-badge {
+  background-color: #95a5a6; /* grey */
+}
+.weakness-item.resistant .type-badge {
+  background-color: #27ae60; /* green */
+}
+.weakness-item.very-resistant .type-badge {
+  background-color: #2ecc71; /* light green */
+}

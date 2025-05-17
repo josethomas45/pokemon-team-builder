@@ -1,0 +1,138 @@
+.pokemon-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  max-width: 100%;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.pokemon-grid-item {
+  display: flex;
+  justify-content: center;
+  transition: transform 0.3s ease;
+}
+
+.pokemon-grid-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 400px;
+  width: 100%;
+}
+
+.pokeball-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.pokeball {
+  width: 60px;
+  height: 60px;
+  background-color: #f0f0f0;
+  border-radius: 50%;
+  position: relative;
+  overflow: hidden;
+  animation: shake 1.5s ease-in-out infinite;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.pokeball:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  background-color: #ff0000;
+}
+
+.pokeball:after {
+  content: '';
+  position: absolute;
+  top: calc(50% - 3px);
+  left: 0;
+  width: 100%;
+  height: 6px;
+  background-color: #222;
+}
+
+.pokeball-button {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  background-color: #fff;
+  border: 3px solid #222;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}
+
+@keyframes shake {
+  0% { transform: rotate(-10deg); }
+  25% { transform: rotate(10deg); }
+  50% { transform: rotate(-10deg); }
+  75% { transform: rotate(10deg); }
+  100% { transform: rotate(-10deg); }
+}
+
+.pokemon-grid-loading p {
+  margin-top: 20px;
+  font-size: 1.2rem;
+  color: #555;
+  animation: pulse 1.5s infinite;
+}
+
+.pokemon-grid-error,
+.pokemon-grid-empty {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+  text-align: center;
+  color: #555;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+  padding: 20px;
+  margin: 20px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.pokemon-grid-error h3,
+.pokemon-grid-empty h3 {
+  color: #e74c3c;
+  margin-bottom: 10px;
+  font-size: 1.5rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .pokemon-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+    padding: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .pokemon-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+    padding: 5px;
+  }
+}
