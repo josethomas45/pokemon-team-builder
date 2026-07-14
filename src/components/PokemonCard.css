@@ -1,40 +1,73 @@
-/* PokemonCard.css Revamp */
+/* PokemonCard.css Futuristic 3D Cyber Overhaul */
 
 .pokemon-card {
   position: relative;
   width: 100%;
-  border-radius: 18px;
+  border-radius: 20px;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: pointer;
   height: 100%;
-  min-height: 240px;
+  min-height: 250px;
   color: white;
   user-select: none;
 }
 
+/* Diagonal glass shine sheen animation on hover */
+.pokemon-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.15) 50%,
+    transparent 100%
+  );
+  transform: skewX(-25deg);
+  transition: none;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.pokemon-card:hover::after {
+  left: 150%;
+  transition: left 0.8s ease-in-out;
+}
+
+/* Hover scales, glows, and outline */
 .pokemon-card:hover {
   transform: translateY(-8px) scale(1.02);
-  box-shadow: 0 20px 30px rgba(0, 0, 0, 0.35);
-  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 
+    0 15px 35px rgba(0, 0, 0, 0.4),
+    0 0 25px rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.15);
 }
 
 .pokemon-card.selected {
-  box-shadow: 0 0 0 3px #ffde00, 0 15px 30px rgba(0, 0, 0, 0.4);
+  box-shadow: 
+    0 0 0 3px var(--neon-yellow),
+    0 15px 35px rgba(0, 0, 0, 0.4),
+    0 0 25px rgba(255, 230, 0, 0.2);
   transform: translateY(-4px);
 }
 
 .pokemon-card-inner {
-  padding: 16px;
+  padding: 18px;
   display: flex;
   flex-direction: column;
   height: 100%;
-  background: rgba(10, 15, 30, 0.35);
+  background: rgba(10, 15, 30, 0.45);
   background-image: 
-    radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.08) 0%, transparent 35%),
-    radial-gradient(circle at 90% 80%, rgba(0, 0, 0, 0.25) 0%, transparent 40%);
+    radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.05) 0%, transparent 35%),
+    radial-gradient(circle at 90% 80%, rgba(0, 0, 0, 0.3) 0%, transparent 45%);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
 }
 
 .pokemon-image-container {
@@ -43,33 +76,42 @@
   margin-bottom: 12px;
   display: flex;
   justify-content: center;
-  height: 100px;
+  height: 110px;
 }
 
+/* Floating Pokémon Image effect */
 .pokemon-image {
   height: 100%;
-  max-height: 100px;
+  max-height: 110px;
   object-fit: contain;
-  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.35));
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.4));
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: floatImage 4s ease-in-out infinite alternate;
+}
+
+@keyframes floatImage {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-6px); }
 }
 
 .pokemon-card:hover .pokemon-image {
-  transform: scale(1.15) translateY(-4px);
+  transform: scale(1.15) translateY(-8px);
 }
 
 .pokemon-id {
   position: absolute;
   top: 0;
   right: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(6, 9, 19, 0.65);
   border-radius: 8px;
   padding: 3px 8px;
   font-family: var(--font-heading);
-  font-size: 0.75rem;
-  font-weight: 700;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: var(--color-accent);
+  font-size: 0.7rem;
+  font-weight: 800;
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--neon-cyan);
+  text-shadow: 0 0 5px rgba(0, 242, 254, 0.4);
 }
 
 .pokemon-info {
@@ -81,34 +123,35 @@
 .pokemon-name {
   margin: 0 0 10px 0;
   font-family: var(--font-heading);
-  font-size: 1.15rem;
-  font-weight: 700;
-  letter-spacing: 0.01em;
+  font-size: 1.2rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
   text-align: center;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+  text-transform: uppercase;
 }
 
 .pokemon-types {
   display: flex;
   justify-content: center;
   gap: 6px;
-  margin-bottom: 14px;
+  margin-bottom: 16px;
 }
 
 .type-badge {
   font-family: var(--font-heading);
-  font-size: 0.65rem;
-  font-weight: 700;
-  letter-spacing: 0.03em;
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
   padding: 3px 10px;
-  border-radius: 20px;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
   border: 1px solid rgba(255, 255, 255, 0.15);
   text-transform: uppercase;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .pokemon-stats {
@@ -117,9 +160,9 @@
   flex-direction: column;
   gap: 6px;
   font-size: 0.7rem;
-  background: rgba(0, 0, 0, 0.2);
-  padding: 10px;
-  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 12px;
+  border-radius: 14px;
   border: 1px solid rgba(255, 255, 255, 0.03);
 }
 
@@ -138,14 +181,14 @@
 .stat-value {
   width: 25px;
   text-align: right;
-  font-weight: 700;
+  font-weight: 800;
   color: var(--color-text-main);
 }
 
 .stat-bar {
   flex: 1;
   height: 6px;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.08);
   border-radius: 4px;
   overflow: hidden;
 }
@@ -153,7 +196,7 @@
 .stat-fill {
   height: 100%;
   border-radius: 4px;
-  transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: width 1s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* Pulsing checkmark badge for selected card */
@@ -163,18 +206,19 @@
   left: 10px;
   width: 26px;
   height: 26px;
-  background: linear-gradient(135deg, var(--color-accent) 0%, #f1c40f 100%);
+  background: linear-gradient(135deg, var(--neon-yellow) 0%, #f1c40f 100%);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid rgb(var(--bg-dark-rgb));
-  box-shadow: 0 0 10px rgba(255, 222, 0, 0.6);
-  animation: indicatorPulse 2s infinite;
+  border: 2px solid var(--bg-dark);
+  box-shadow: 0 0 12px rgba(255, 230, 0, 0.6);
+  animation: indicatorPulseApp 2s infinite;
+  z-index: 3;
 }
 
 .selected-indicator svg {
-  fill: rgb(var(--bg-dark-rgb));
+  fill: var(--bg-dark);
   width: 14px;
   height: 14px;
 }
@@ -184,7 +228,7 @@
   bottom: 0;
   right: 0;
   padding: 6px 8px;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(6, 9, 19, 0.7);
   border-top-left-radius: 12px;
   border-left: 1px solid rgba(255, 255, 255, 0.08);
   border-top: 1px solid rgba(255, 255, 255, 0.08);
@@ -199,12 +243,12 @@
 }
 
 .pokemon-card.dragging {
-  opacity: 0.4;
+  opacity: 0.3;
   transform: scale(0.95);
 }
 
-@keyframes indicatorPulse {
-  0% { box-shadow: 0 0 0 0 rgba(255, 222, 0, 0.7); }
-  70% { box-shadow: 0 0 0 6px rgba(255, 222, 0, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(255, 222, 0, 0); }
+@keyframes indicatorPulseApp {
+  0% { box-shadow: 0 0 0 0 rgba(255, 230, 0, 0.8); }
+  70% { box-shadow: 0 0 0 8px rgba(255, 230, 0, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(255, 230, 0, 0); }
 }

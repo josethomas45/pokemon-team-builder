@@ -90,6 +90,9 @@ function App() {
 
   return (
     <div className="app">
+      <div className="bg-glow bg-glow-1"></div>
+      <div className="bg-glow bg-glow-2"></div>
+      <div className="bg-glow bg-glow-3"></div>
       <header className="app-header">
         <h1>POKEMON TEAM BUILDER</h1>
         <SearchBar
