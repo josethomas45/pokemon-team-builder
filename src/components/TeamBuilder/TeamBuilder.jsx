@@ -1,32 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { calculateTeamStats } from '../../utils/teamStats';
+import { calculateTeamWeaknesses } from '../../utils/typeMatchups';
 import './TeamBuilder.css';
-
-// Fixed calculateTeamWeaknesses utility inside the file for clarity
-const calculateTeamWeaknesses = (team) => {
-  const typeChart = {
-    fire: { water: 2, grass: 0.5, electric: 1 },
-    water: { electric: 2, grass: 2, fire: 0.5 },
-    grass: { fire: 2, water: 0.5, electric: 1 },
-    electric: { ground: 2, water: 0.5, grass: 1 },
-    ground: { water: 2, grass: 1, electric: 0 },
-  };
-
-  const weaknesses = {};
-
-  team.forEach(pokemon => {
-    (pokemon.types || []).forEach(type => {
-      const lowerType = type.toLowerCase();
-      const multipliers = typeChart[lowerType] || {};
-      Object.entries(multipliers).forEach(([attackType, multiplier]) => {
-        const current = Number(weaknesses[attackType]) || 1;
-        weaknesses[attackType] = current * multiplier;
-      });
-    });
-  });
-
-  return weaknesses;
-};
 
 const TeamBuilder = ({ team, removeFromTeam, updateTeamOrder, addToTeam }) => {
   const [teamStats, setTeamStats] = useState({
@@ -38,7 +13,11 @@ const TeamBuilder = ({ team, removeFromTeam, updateTeamOrder, addToTeam }) => {
     speed: 0,
   });
 
-  const [weaknesses, setWeaknesses] = useState({});
+  const [weaknesses, setWeaknesses] = useState({
+    weaknesses: {},
+    resistances: {},
+    immunities: {}
+  });
   const [draggedItemId, setDraggedItemId] = useState(null);
   const [dragOverId, setDragOverId] = useState(null);
 
@@ -55,7 +34,11 @@ const TeamBuilder = ({ team, removeFromTeam, updateTeamOrder, addToTeam }) => {
         specialDefense: 0,
         speed: 0,
       });
-      setWeaknesses({});
+      setWeaknesses({
+        weaknesses: {},
+        resistances: {},
+        immunities: {}
+      });
     }
   }, [team]);
 
@@ -201,36 +184,42 @@ const TeamBuilder = ({ team, removeFromTeam, updateTeamOrder, addToTeam }) => {
         </div>
       )}
 
-      {/* SOMETHING NOT WORKING PROPER IN THIS SECTION . MAKW IT PROPER LATER */}
+      {team.length > 0 && (
+        <div className="team-weaknesses-panel">
+          <h3>Team Defense Matchups</h3>
+          <div className="weaknesses-grid">
+            {[
+              'normal', 'fire', 'water', 'electric', 'grass', 'ice', 'fighting', 'poison',
+              'ground', 'flying', 'psychic', 'bug', 'rock', 'ghost', 'dragon', 'dark', 'steel', 'fairy'
+            ].map((type) => {
+              const weakCount = weaknesses.weaknesses?.[type] || 0;
+              const resistCount = weaknesses.resistances?.[type] || 0;
+              const immuneCount = weaknesses.immunities?.[type] || 0;
 
-      {/* 
-{team.length > 0 && (
-  <div className="team-weaknesses">
-    <h3>Team Type Analysis</h3>
-    <div className="weaknesses-grid">
-      {Object.entries(weaknesses)
-        .sort(([, a], [, b]) => b - a)
-        .map(([type, multiplier]) => {
-          let numericValue = Number(multiplier);
-          if (isNaN(numericValue)) numericValue = 1;
+              let status = 'neutral';
+              if (weakCount > resistCount + immuneCount) {
+                status = weakCount >= 2 ? 'very-weak' : 'weak';
+              } else if (resistCount + immuneCount > weakCount) {
+                status = (immuneCount > 0 || resistCount >= 2) ? 'very-resistant' : 'resistant';
+              }
 
-          let status = 'neutral';
-          if (numericValue >= 2) status = 'very-weak';
-          else if (numericValue > 1) status = 'weak';
-          else if (numericValue < 0.5) status = 'very-resistant';
-          else if (numericValue < 1) status = 'resistant';
-
-          return (
-            <div key={type} className={`weakness-item ${status}`}>
-              <span className={`type-badge ${type.toLowerCase()}`}>{type}</span>
-              <span className="multiplier">{numericValue.toFixed(2)}×</span>
-            </div>
-          );
-        })}
-    </div>
-  </div>
-)}
-*/}
+              return (
+                <div key={type} className={`weakness-item ${status}`}>
+                  <span className={`type-badge ${type}`}>{type}</span>
+                  <div className="matchup-badges">
+                    {weakCount > 0 && <span className="badge weak-badge">+{weakCount}</span>}
+                    {resistCount > 0 && <span className="badge resist-badge">-{resistCount}</span>}
+                    {immuneCount > 0 && <span className="badge immune-badge">Ø{immuneCount}</span>}
+                    {weakCount === 0 && resistCount === 0 && immuneCount === 0 && (
+                      <span className="badge neutral-badge">1×</span>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
 
 
     </div>

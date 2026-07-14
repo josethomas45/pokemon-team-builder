@@ -1,29 +1,28 @@
+/* Footer.css Revamp */
+
 .footer {
   text-align: center;
-  padding: 1.5rem 1rem;
-  background-color: #ffffff;  /* pure white */
-  color: #000000;             /* darker gray for stronger contrast */
-  font-size: 1rem;
-  margin-top: 2.5rem;
-  border-top: 1.5px solid #e5e7eb; /* light gray border */
-  box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.05);
-  font-family: Arial, Helvetica, sans-serif;
-
-  letter-spacing: 0.03em;
+  padding: 24px 16px;
+  background-color: rgba(22, 28, 45, 0.2);
+  border-top: 1px solid var(--panel-border);
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+  margin-top: 40px;
+  font-family: var(--font-body);
+  letter-spacing: 0.02em;
   user-select: none;
-  font-weight: 700; /* bold font for main text */
 }
 
 .footer p {
-  margin: 0.3rem 0;
-  font-weight: 700; /* make paragraph text bold */
+  margin: 6px 0;
+  font-weight: 500;
 }
 
 .footer a {
-  color: #1f2937;  /* dark slate */
+  color: var(--color-primary);
   text-decoration: none;
-  font-weight: 800; /* even bolder for links */
-  transition: color 0.3s ease, transform 0.2s ease;
+  font-weight: 700;
+  transition: all 0.25s ease;
   position: relative;
   display: inline-block;
 }
@@ -33,20 +32,21 @@
   position: absolute;
   width: 100%;
   height: 2px;
-  background: #1f2937;
+  background: var(--color-primary);
   bottom: -3px;
   left: 0;
   transform: scaleX(0);
   transform-origin: right;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .footer a:hover {
-  color: #364c52;  /* darker on hover */
-  transform: translateY(-2px);
+  color: var(--color-accent);
+  transform: translateY(-1px);
 }
 
 .footer a:hover::after {
+  background: var(--color-accent);
   transform: scaleX(1);
   transform-origin: left;
 }

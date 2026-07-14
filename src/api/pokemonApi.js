@@ -58,8 +58,7 @@ export const usePokemonList = (limit = 50) => {
     queryKey: ['pokemonList', limit],
     queryFn: () => fetchPokemonList(limit),
     staleTime: 1000 * 60 * 60, // 1 hour
-    cacheTime: 1000 * 60 * 60 * 24, // 24 hours
-    refetchOnWindowFocus: false,
+    gcTime: 1000 * 60 * 60 * 24, // 24 hours (formerly cacheTime in React Query v4)
   });
 };
 
