@@ -18,7 +18,6 @@ const TeamBuilder = ({ team, removeFromTeam, updateTeamOrder, addToTeam }) => {
     resistances: {},
     immunities: {}
   });
-  const [draggedItemId, setDraggedItemId] = useState(null);
   const [dragOverId, setDragOverId] = useState(null);
 
   useEffect(() => {
@@ -47,7 +46,6 @@ const TeamBuilder = ({ team, removeFromTeam, updateTeamOrder, addToTeam }) => {
   };
 
   const handleDragStart = (e, id) => {
-    setDraggedItemId(id);
     e.dataTransfer.effectAllowed = 'move';
     e.dataTransfer.setData('text/plain', id);
   };
@@ -94,7 +92,6 @@ const TeamBuilder = ({ team, removeFromTeam, updateTeamOrder, addToTeam }) => {
       }
     }
 
-    setDraggedItemId(null);
     setDragOverId(null);
   };
 
