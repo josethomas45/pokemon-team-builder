@@ -13,6 +13,9 @@
   min-height: 250px;
   color: white;
   user-select: none;
+  /* Hardware acceleration to enforce border-radius clip on WebKit browsers */
+  transform: translate3d(0, 0, 0);
+  -webkit-transform: translate3d(0, 0, 0);
 }
 
 /* Diagonal glass shine sheen animation on hover */
@@ -62,6 +65,8 @@
   display: flex;
   flex-direction: column;
   height: 100%;
+  border-radius: inherit; /* Align internal card corners exactly with parent */
+  overflow: hidden;
   background: rgba(10, 15, 30, 0.45);
   background-image: 
     radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.05) 0%, transparent 35%),
