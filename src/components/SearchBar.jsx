@@ -4,6 +4,7 @@ import './SearchBar.css';
 
 const SearchBar = ({ onSearch, onTypeSelect, activeType = 'all' }) => {
   const [searchTerm, setSearchTerm] = useState('');
+  const [isOpen, setIsOpen] = useState(false);
   const { data: pokemonTypes, isLoading: typesLoading } = usePokemonTypes();
 
   // Handle search input change
@@ -89,31 +90,55 @@ const SearchBar = ({ onSearch, onTypeSelect, activeType = 'all' }) => {
         )}
       </div>
 
-      <div className="type-filters">
-        <button
-          className={`type-filter ${activeType === 'all' ? 'active' : ''}`}
-          onClick={() => handleTypeSelect('all')}
+      <div className="filter-toggle-container">
+        <button 
+          className={`filter-toggle-btn ${isOpen ? 'panel-open' : ''} ${activeType !== 'all' ? 'active-filter' : ''}`}
+          onClick={() => setIsOpen(!isOpen)}
+          style={{
+            borderColor: activeType !== 'all' ? getTypeColor(activeType) : 'rgba(255, 255, 255, 0.08)',
+            boxShadow: activeType !== 'all' ? `0 0 10px ${getTypeColor(activeType)}33` : 'none'
+          }}
         >
-          All Types
+          <svg className="filter-toggle-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+          </svg>
+          <span>{activeType === 'all' ? 'Filter by Type' : `Type: ${activeType}`}</span>
+          <svg className={`chevron-icon ${isOpen ? 'open' : ''}`} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
         </button>
+      </div>
 
-        {typesLoading ? (
-          <span className="loading-types">Loading types...</span>
-        ) : (
-          filteredTypes.map((type) => (
-            <button
-              key={type}
-              className={`type-filter ${activeType === type ? 'active' : ''}`}
-              style={{
-                backgroundColor: activeType === type ? getTypeColor(type) : 'transparent',
-                borderColor: getTypeColor(type),
-              }}
-              onClick={() => handleTypeSelect(type)}
-            >
-              {type.charAt(0).toUpperCase() + type.slice(1)}
-            </button>
-          ))
-        )}
+      <div className={`type-filters-drawer ${isOpen ? 'open' : ''}`}>
+        <div className="type-filters-grid">
+          <button
+            className={`type-filter all-filter ${activeType === 'all' ? 'active' : ''}`}
+            onClick={() => handleTypeSelect('all')}
+          >
+            All Types
+          </button>
+
+          {typesLoading ? (
+            <span className="loading-types">Loading types...</span>
+          ) : (
+            filteredTypes.map((type) => (
+              <button
+                key={type}
+                className={`type-filter ${activeType === type ? 'active' : ''}`}
+                style={{
+                  backgroundColor: activeType === type ? getTypeColor(type) : 'rgba(255, 255, 255, 0.02)',
+                  borderColor: activeType === type ? getTypeColor(type) : 'rgba(255, 255, 255, 0.08)',
+                  color: activeType === type ? '#000' : '#f8fafc',
+                  fontWeight: activeType === type ? '800' : '600',
+                  boxShadow: activeType === type ? `0 0 15px ${getTypeColor(type)}aa` : 'none'
+                }}
+                onClick={() => handleTypeSelect(type)}
+              >
+                {type.charAt(0).toUpperCase() + type.slice(1)}
+              </button>
+            ))
+          )}
+        </div>
       </div>
     </div>
   );
